@@ -61,6 +61,7 @@ function deleteAllItems() {
     }
     localStorage.removeItem("todos");
     modal.classList.add('hidden');
+    todoInput.value = ""
 }
 
 function deleteItem(e) {
