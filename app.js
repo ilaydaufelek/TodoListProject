@@ -56,13 +56,16 @@ function filterTodos(e) {
 }
 
 function deleteAllItems() {
+
     while (todoList.firstElementChild != null) {
         todoList.removeChild(todoList.firstElementChild);
     }
+   
     localStorage.removeItem("todos");
     modal.classList.add('hidden');
     todoInput.value = ""
 }
+
 
 function deleteItem(e) {
     if (e.target.className === "fa-regular fa-square-minus mr-2 hover:text-[#ff0022]") {
@@ -78,7 +81,15 @@ function deleteItemFromStorage(deleteTodo) {
             todos.splice(index, 1); // Array'dan sil
         }
     });
+    
     localStorage.setItem("todos", JSON.stringify(todos));
+    if(todos.length === 0){
+        clear.setAttribute("disabled", "")
+    } else {
+      if(todos.length > 0 ){
+        clear.removeAttribute("disabled")
+      }
+    }
 }
 
 function addTodo(e) {
@@ -91,6 +102,7 @@ function addTodo(e) {
     } else {
         createNewTodoUI(newTodo);
         addItemToStorage(newTodo);
+        clear.removeAttribute("disabled");
     }
 
     todoInput.value = "";
@@ -98,9 +110,19 @@ function addTodo(e) {
 
 function loadItemsToUI() {
     let todos = getTodosFromStorage();
+    if(todos.length === 0){
+        clear.setAttribute("disabled", "")
+    } else {
+      if(todos.length > 0 ){
+        clear.removeAttribute("disabled")
+      }
+    }
+   
     todos.forEach(function (todo) {
         createNewTodoUI(todo);
     });
+   
+   
 }
 
 function createNewTodoUI(newTodo) {
@@ -138,8 +160,10 @@ function getTodosFromStorage() {
 
 function addItemToStorage(newTodo) {
     let todos = getTodosFromStorage();
+   
     todos.push(newTodo);
     localStorage.setItem("todos", JSON.stringify(todos));
+   
 }
 
 
